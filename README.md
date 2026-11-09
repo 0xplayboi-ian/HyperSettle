@@ -9,8 +9,9 @@
 Built for **Colosseum Eternal** (Payments & Developer Tooling Track).
 
 <p align="center">
-  <a href="branding/showcase_scientific_differential_geometry.html"><b>🔬 Scientific 3D Suite</b></a> •
+  <a href="branding/official_logo_showcase.html"><b>⭐ Official 4K Logo Suite</b></a> •
   <a href="branding/3d_parametric_studio.html"><b>🎮 3D Parametric Studio (50 Shapes)</b></a> •
+  <a href="branding/showcase_scientific_differential_geometry.html"><b>🔬 Scientific 3D Suite</b></a> •
   <a href="branding/showcase_3d_mesh_100.html"><b>📐 100 3D Mesh Logos</b></a> •
   <a href="branding/brand_cards_showcase.html"><b>🎴 Brand Cards</b></a>
 </p>

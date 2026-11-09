@@ -619,18 +619,27 @@
 
         <!-- 7. Action & Export Buttons -->
         <div class="control-group" style="margin-top: auto;">
-            <div class="action-row">
-                <button class="btn-action" onclick="exportLogoPNG(false)">
+            <div style="font-size:11px; font-weight:700; color:var(--mint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                <span>Export & Output</span>
+                <span style="font-family:var(--mono); font-size:10px; background:#00F5D422; color:var(--mint); padding:2px 6px; border-radius:4px;">4K UHD READY</span>
+            </div>
+            <div class="action-row" style="margin-bottom: 6px;">
+                <button class="btn-action" style="background: linear-gradient(135deg, #00F5D4, #00E5FF); color: #030706; font-weight: 700; width: 100%; justify-content: center;" onclick="exportLogo4K(false, 'image/jpeg')">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Export PNG
+                    ⚡ Export 4K UHD Solid JPG
                 </button>
-                <button class="btn-action btn-secondary" onclick="exportLogoPNG(true)">
-                    <span>🏁 Transparent PNG</span>
+            </div>
+            <div class="action-row">
+                <button class="btn-action btn-secondary" onclick="exportLogo4K(true, 'image/png')">
+                    <span>🏁 4K Alpha PNG</span>
+                </button>
+                <button class="btn-action btn-secondary" onclick="exportLogoPNG(false)">
+                    <span>Viewport PNG</span>
                 </button>
             </div>
             <div class="action-row" style="margin-top: 6px;">
                 <button class="btn-action btn-secondary" onclick="export3DOBJ()">
-                    <span>💾 Export 3D .OBJ</span>
+                    <span>💾 Export .OBJ</span>
                 </button>
                 <button class="btn-action btn-secondary" onclick="resetCamera()">
                     <span>🔄 Reset Camera</span>
@@ -1732,6 +1741,49 @@
         }
 
         function resetCamera() { setCameraView('perspective'); }
+
+        // Export 4K Ultra-Resolution (4096 x 4096 UHD)
+        function exportLogo4K(transparent = false, format = 'image/jpeg') {
+            const prevBg = scene.background;
+            const prevBox = boxGroup.visible;
+
+            if (transparent) {
+                scene.background = null;
+                renderer.setClearColor(0x000000, 0.0);
+                boxGroup.visible = false;
+            }
+
+            // Temporarily set renderer canvas to 4096 x 4096
+            const targetDim = 4096;
+            renderer.setSize(targetDim, targetDim, false);
+            camera.aspect = 1.0;
+            camera.updateProjectionMatrix();
+
+            renderer.render(scene, camera);
+            const mime = (format === 'image/jpeg') ? 'image/jpeg' : 'image/png';
+            const dataURL = renderer.domElement.toDataURL(mime, 0.98);
+
+            const sName = SURFACES[selectedSurfaceIdx].name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            const ext = (format === 'image/jpeg') ? 'jpg' : 'png';
+            const a = document.createElement('a');
+            a.download = `hypersettle_${sName}_4k_${transparent ? 'transparent' : 'solid'}.${ext}`;
+            a.href = dataURL;
+            a.click();
+
+            // Restore canvas viewport size & camera aspect
+            const viewport = document.getElementById('viewport');
+            const w = viewport.clientWidth;
+            const h = viewport.clientHeight;
+            renderer.setSize(w, h, true);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+
+            if (transparent) {
+                scene.background = isTransparentBg ? null : new THREE.Color(currentBgColor);
+                renderer.setClearColor(new THREE.Color(currentBgColor), isTransparentBg ? 0.0 : 1.0);
+                boxGroup.visible = prevBox;
+            }
+        }
 
         // Export PNG (Transparent or Background)
         function exportLogoPNG(transparent = false) {
