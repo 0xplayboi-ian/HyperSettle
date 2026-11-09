@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperSettle • 10 Neural Ray-Traced 3D Mathematical Renders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030605;
+            --surface: #091210;
+            --surface-border: #162622;
+            --mint: #98FCE4;
+            --cyan: #00E5FF;
+            --solana: #9945FF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
+            --font-sans: 'Space Grotesk', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            padding: 48px 24px;
+            line-height: 1.5;
+        }
+        .container { max-width: 1440px; margin: 0 auto; }
+        header {
+            border-bottom: 1px solid var(--surface-border);
+            padding-bottom: 32px;
+            margin-bottom: 40px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(152, 252, 228, 0.1);
+            color: var(--mint);
+            border: 1px solid rgba(152, 252, 228, 0.3);
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-family: var(--font-sans);
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #FFFFFF 40%, var(--mint) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 920px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+            gap: 32px;
+        }
+        .render-card {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        .render-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--cyan);
+            box-shadow: 0 12px 30px -5px rgba(0, 229, 255, 0.15);
+        }
+        .render-img-wrapper {
+            aspect-ratio: 1 / 1;
+            background: #000000;
+            overflow: hidden;
+            position: relative;
+        }
+        .render-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s;
+        }
+        .render-card:hover .render-img {
+            transform: scale(1.03);
+        }
+        .render-meta {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .render-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--mint);
+        }
+        .render-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            flex-grow: 1;
+            line-height: 1.45;
+        }
+        .btn-download {
+            margin-top: 12px;
+            background: var(--mint);
+            color: #030605;
+            padding: 11px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            font-size: 12px;
+            transition: opacity 0.15s;
+        }
+        .btn-download:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="badge">DIFFUSION &amp; NEURAL RAY-TRACING • 10 DISTINCT 3D CONCEPTS</span>
+            <h1>10 Photorealistic 3D Mathematical Logos</h1>
+            <p class="subtitle">A complementary generative image method capturing the exact visual fidelity of Curve Finance's mathematical wireframe mesh, 33rd Tree Labs black hole singularities, and Matplotlib differential geometry 3D plots.</p>
+        </header>
+
+        <div class="grid">
+            <!-- 01 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_variant_a_mathematica_manifold_1794217114751.jpg" alt="01" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">01 • Boy's Surface Differential Geometry Plot</div>
+                    <div class="render-desc">Parametric quad wireframe grid with scientific rainbow jet heat-map colormap and isometric 3D bounding coordinate box plot inspired by Curve Finance and Mathematica.</div>
+                    <a href="ai-generated/hypersettle_variant_a_mathematica_manifold_1794217114751.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 02 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_variant_b_defi_singularity_glass_1794217130699.jpg" alt="02" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">02 • Iridescent Glass Singularity Manifold</div>
+                    <div class="render-desc">Modern Web3 DeFi emblem featuring an iridescent Hyperliquid electric mint, cyan, and Solana purple glass manifold with glowing vector wireframe grid lines plunging into a black hole throat.</div>
+                    <a href="ai-generated/hypersettle_variant_b_defi_singularity_glass_1794217130699.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 03 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_variant_b_klein_manifold_glass_1794217146310.jpg" alt="03" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">03 • Klein Bottle / Dupin Cyclide Glass Mesh</div>
+                    <div class="render-desc">Angled icon-focused rendering of an intricate Klein bottle / Dupin cyclide topological manifold in glowing electric mint and Solana purple iridescent glass with vector wireframe meshes.</div>
+                    <a href="ai-generated/hypersettle_variant_b_klein_manifold_glass_1794217146310.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 04 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_04_curve_minimal_wireframe_1794217238943.jpg" alt="04" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">04 • Curve Finance Pure Minimal Wireframe</div>
+                    <div class="render-desc">Stark solid white background with crisp dark navy vector wireframe mesh grid lines tracing the Boy's surface / cross-cap non-orientable immersion. Direct tribute to the Curve brand mark.</div>
+                    <a href="ai-generated/hypersettle_04_curve_minimal_wireframe_1794217238943.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 05 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_05_singularity_funnel_1794217263997.jpg" alt="05" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">05 • 33rd Tree Exponential Singularity Funnel</div>
+                    <div class="render-desc">The 33rd Tree Labs black hole gravity well plunging into an ultra-narrow needle throat, mapped with rainbow jet colormap wireframe mesh inside an isometric 3D coordinate bounding box.</div>
+                    <a href="ai-generated/hypersettle_05_singularity_funnel_1794217263997.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 06 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_06_dupin_cyclide_mesh_1794217285516.jpg" alt="06" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">06 • Dupin Cyclide &amp; Horn Torus Mesh</div>
+                    <div class="render-desc">Self-pinching geometric horn torus with iridescent Hyperliquid mint green, vivid cyan, and Solana purple gradient shading and a fine white vector wireframe grid.</div>
+                    <a href="ai-generated/hypersettle_06_dupin_cyclide_mesh_1794217285516.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 07 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_07_trefoil_knot_mesh_1794217309643.jpg" alt="07" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">07 • Interwoven Trefoil Knot Tube Mesh</div>
+                    <div class="render-desc">Continuous 3D mathematical knot theory tube mesh winding through space with scientific rainbow heatmap colormap and quad wireframe curvature grid lines.</div>
+                    <a href="ai-generated/hypersettle_07_trefoil_knot_mesh_1794217309643.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 08 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_08_enneper_surface_1794217332104.jpg" alt="08" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">08 • Enneper Minimal Surface Hologram</div>
+                    <div class="render-desc">Tri-lobed self-intersecting saddle sheet geometry in glowing holographic refractive glass with luminous chromatic dispersion and curvature coordinate lines.</div>
+                    <a href="ai-generated/hypersettle_08_enneper_surface_1794217332104.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 09 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_09_clifford_torus_projection_1794217356583.jpg" alt="09" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">09 • Clifford 4D Torus Stereographic Projection</div>
+                    <div class="render-desc">Stereographic conformal projection of a 4D flat torus into 3D space with an isometric quad wireframe mesh and spectral jet heatmap colormap against a coordinate space.</div>
+                    <a href="ai-generated/hypersettle_09_clifford_torus_projection_1794217356583.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="render-card">
+                <div class="render-img-wrapper">
+                    <img src="ai-generated/hypersettle_10_black_hole_accretion_mesh_1794217386258.jpg" alt="10" class="render-img">
+                </div>
+                <div class="render-meta">
+                    <div class="render-title">10 • Relativistic Kerr Black Hole Accretion Mesh</div>
+                    <div class="render-desc">Gravitationally lensed accretion disc warping over and under a spinning black hole singularity, textured with iridescent Doppler shift plasma gradients and quad wireframe grid.</div>
+                    <a href="ai-generated/hypersettle_10_black_hole_accretion_mesh_1794217386258.jpg" download class="btn-download">Download High-Res JPG</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

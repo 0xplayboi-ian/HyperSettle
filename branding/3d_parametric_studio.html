@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperSettle • 3D Parametric Differential Geometry Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Three.js and OrbitControls from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        :root {
+            --bg: #030706;
+            --panel: #0A1210;
+            --panel-border: #162622;
+            --mint: #98FCE4;
+            --cyan: #00E5FF;
+            --solana: #9945FF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
+            --font-sans: 'Space Grotesk', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Controls */
+        #sidebar {
+            width: 380px;
+            background: var(--panel);
+            border-right: 1px solid var(--panel-border);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            gap: 20px;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        .brand-badge {
+            display: inline-block;
+            background: rgba(152, 252, 228, 0.1);
+            color: var(--mint);
+            border: 1px solid rgba(152, 252, 228, 0.3);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+        h1 {
+            font-family: var(--font-sans);
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #FFFFFF;
+        }
+        .desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        label {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--mint);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        select, button, input[type="range"] {
+            font-family: var(--font-mono);
+        }
+        select {
+            background: #040807;
+            color: #FFFFFF;
+            border: 1px solid var(--panel-border);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            cursor: pointer;
+            outline: none;
+        }
+        select:focus {
+            border-color: var(--mint);
+        }
+
+        /* Preset Surface Selector */
+        .surface-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 240px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .surface-btn {
+            background: #050B09;
+            color: var(--text-secondary);
+            border: 1px solid var(--panel-border);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .surface-btn:hover, .surface-btn.active {
+            background: var(--mint);
+            color: #030706;
+            font-weight: 700;
+            border-color: var(--mint);
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .toggle-row input {
+            cursor: pointer;
+            accent-color: var(--mint);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            background: var(--mint);
+            color: #030706;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: opacity 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-action:hover { opacity: 0.9; }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+
+        /* Viewport Canvas */
+        #viewport {
+            flex-grow: 1;
+            position: relative;
+            background: #000000;
+        }
+        #webgl-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        #hud-overlay {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            pointer-events: none;
+            font-size: 11px;
+            color: var(--mint);
+            letter-spacing: 1.5px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(152, 252, 228, 0.2);
+            backdrop-filter: blur(8px);
+        }
+        #hud-tips {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            pointer-events: none;
+            font-size: 11px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <div>
+            <span class="brand-badge">CURVE FINANCE × HYPERLIQUID 3D ENGINE</span>
+            <h1 style="margin-top: 8px;">3D Parametric Studio</h1>
+            <p class="desc" style="margin-top: 4px;">Interactive mathematical differential geometry renderer. Drag to rotate in 360°, scroll to zoom, and export 4K PNG captures.</p>
+        </div>
+
+        <div class="control-group">
+            <label>1. Mathematical Manifold (10 Presets)</label>
+            <div class="surface-list" id="surfaceList">
+                <button class="surface-btn active" onclick="selectSurface(0)">01 • Boy's Surface (Curve.fi Mark)</button>
+                <button class="surface-btn" onclick="selectSurface(1)">02 • Klein Bottle (Figure-8 Immersion)</button>
+                <button class="surface-btn" onclick="selectSurface(2)">03 • 33rd Tree Exponential Singularity</button>
+                <button class="surface-btn" onclick="selectSurface(3)">04 • Dupin Cyclide (Horn Torus)</button>
+                <button class="surface-btn" onclick="selectSurface(4)">05 • Enneper Minimal Surface</button>
+                <button class="surface-btn" onclick="selectSurface(5)">06 • Cross-Cap (RP^2 Immersion)</button>
+                <button class="surface-btn" onclick="selectSurface(6)">07 • Clifford 4D Torus Projection</button>
+                <button class="surface-btn" onclick="selectSurface(7)">08 • Kuen Constant-Negative Curvature</button>
+                <button class="surface-btn" onclick="selectSurface(8)">09 • Trefoil Knot Torus Tube (2,3)</button>
+                <button class="surface-btn" onclick="selectSurface(9)">10 • Calabi-Yau 3-Fold Slice</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>2. Visual Style &amp; Colormap</label>
+            <select id="styleSelect" onchange="updateStyle()">
+                <option value="rainbow_box">Matplotlib Rainbow Differential Plot (Image 1 Style)</option>
+                <option value="curve_wire">Curve Finance Navy/Graphite Wireframe (Image 2 Style)</option>
+                <option value="hyper_spectral">Hyperliquid Spectral (Mint / Cyan / Solana Violet)</option>
+                <option value="hud_mono">33rd Tree Monochrome Vector HUD</option>
+                <option value="magma_glow">Magma Radiant Thermal</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label>3. Rendering Parameters</label>
+            <div class="toggle-row">
+                <span>3D Coordinate Bounding Grid</span>
+                <input type="checkbox" id="checkGridBox" checked onchange="toggleGridBox()">
+            </div>
+            <div class="toggle-row">
+                <span>Surface Wireframe Edges</span>
+                <input type="checkbox" id="checkWire" checked onchange="toggleWire()">
+            </div>
+            <div class="toggle-row">
+                <span>Auto-Rotation Orbit</span>
+                <input type="checkbox" id="checkRotate" onchange="toggleRotate()">
+            </div>
+        </div>
+
+        <div class="control-group" style="margin-top: auto;">
+            <button class="btn-action" onclick="exportHighResPNG()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export High-Res PNG (Logo Capture)
+            </button>
+            <button class="btn-action btn-secondary" style="margin-top: 8px;" onclick="resetCamera()">Reset 3D Camera</button>
+        </div>
+    </div>
+
+    <div id="viewport">
+        <canvas id="webgl-canvas"></canvas>
+        <div id="hud-overlay">SURFACE: <span id="hudName">Boy's Surface (Curve.fi)</span></div>
+        <div id="hud-tips">Left Click + Drag: Rotate • Right Click: Pan • Scroll: Zoom</div>
+    </div>
+
+    <script>
+        // Setup Three.js Scene
+        const canvas = document.getElementById('webgl-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x040807);
+
+        const camera = new THREE.PerspectiveCamera(40, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+        camera.position.set(3.5, 2.5, 4.5);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
+
+        // 3D Bounding Coordinate Box
+        const boxGroup = new THREE.Group();
+        const gridHelper = new THREE.GridHelper(3.6, 8, 0x1F3830, 0x162822);
+        gridHelper.position.y = -1.8;
+        boxGroup.add(gridHelper);
+
+        const boxGeo = new THREE.BoxGeometry(3.6, 3.6, 3.6);
+        const boxEdges = new THREE.EdgesGeometry(boxGeo);
+        const boxLine = new THREE.LineSegments(boxEdges, new THREE.LineBasicMaterial({ color: 0x2D5246, transparent: true, opacity: 0.6 }));
+        boxGroup.add(boxLine);
+        scene.add(boxGroup);
+
+        // Parametric Surface Mesh Object
+        let currentMesh = null;
+        let currentWire = null;
+        let selectedSurfaceIdx = 0;
+        let autoRotate = false;
+
+        // Mathematical Surface Generators
+        const SURFACES = [
+            {
+                name: "Boy's Surface (Curve.fi Mark)",
+                func: (u, v, target) => {
+                    u = u * Math.PI; v = v * Math.PI;
+                    const cu = Math.cos(u), su = Math.sin(u);
+                    const cv = Math.cos(v), sv = Math.sin(v);
+                    const c2u = Math.cos(2*u), s2u = Math.sin(2*u);
+                    const s2v = Math.sin(2*v), s3u = Math.sin(3*u);
+                    const den = 2.0 - Math.SQRT2 * s3u * s2v || 0.001;
+                    const x = (Math.SQRT2 * cv * cv * c2u + cu * s2v) / den;
+                    const y = (Math.SQRT2 * cv * cv * s2u - su * s2v) / den;
+                    const z = (3.0 * cv * cv) / den - 1.2;
+                    target.set(x * 1.1, y * 1.1, z * 1.1);
+                }
+            },
+            {
+                name: "Klein Bottle (Figure-8 Immersion)",
+                func: (u, v, target) => {
+                    u = u * Math.PI * 2; v = v * Math.PI * 2;
+                    const r = 2.0;
+                    const cu = Math.cos(u), su = Math.sin(u);
+                    const cu2 = Math.cos(u/2), su2 = Math.sin(u/2);
+                    const sv = Math.sin(v), s2v = Math.sin(2*v);
+                    const x = (r + cu2 * sv - su2 * s2v) * cu;
+                    const y = (r + cu2 * sv - su2 * s2v) * su;
+                    const z = su2 * sv + cu2 * s2v;
+                    target.set(x * 0.55, z * 0.7, y * 0.55);
+                }
+            },
+            {
+                name: "33rd Tree Exponential Singularity Funnel",
+                func: (u, v, target) => {
+                    u = u * Math.PI * 2; v = (v - 0.5) * 2;
+                    const norm = Math.min(1.0, Math.abs(v));
+                    const r = 0.08 + 1.65 * ((Math.exp(3.8 * norm) - 1.0) / (Math.exp(3.8) - 1.0));
+                    target.set(r * Math.cos(u), v * 1.5, r * Math.sin(u));
+                }
+            },
+            {
+                name: "Dupin Cyclide (Horn Torus)",
+                func: (u, v, target) => {
+                    u = u * Math.PI * 2; v = v * Math.PI * 2;
+                    const a = 1.8, b = 1.4, c = 1.1, d = 0.9;
+                    const cu = Math.cos(u), cv = Math.cos(v);
+                    const su = Math.sin(u), sv = Math.sin(v);
+                    const den = a - c * cu * cv || 0.001;
+                    const x = (d * (c - a * cu * cv) + b * b * cu) / den;
+                    const y = (b * su * (a - d * cv)) / den;
+                    const z = (b * sv * (c * cu - d)) / den;
+                    target.set(x * 0.8, z * 0.8, y * 0.8);
+                }
+            },
+            {
+                name: "Enneper Minimal Surface",
+                func: (u, v, target) => {
+                    u = (u - 0.5) * 3.0; v = (v - 0.5) * 3.0;
+                    const x = u - (u**3)/3 + u * (v**2);
+                    const y = v - (v**3)/3 + v * (u**2);
+                    const z = (u**2) - (v**2);
+                    target.set(x * 0.5, z * 0.5, y * 0.5);
+                }
+            },
+            {
+                name: "Cross-Cap (RP^2 Immersion)",
+                func: (u, v, target) => {
+                    u = u * Math.PI; v = v * Math.PI * 2;
+                    const x = Math.sin(u) * Math.sin(2*v);
+                    const y = Math.sin(2*u) * (Math.cos(v)**2);
+                    const z = Math.cos(2*u) * (Math.cos(v)**2);
+                    target.set(x * 1.5, z * 1.5, y * 1.5);
+                }
+            },
+            {
+                name: "Clifford 4D Torus Projection",
+                func: (u, v, target) => {
+                    u = u * Math.PI * 2; v = v * Math.PI * 2;
+                    const den = Math.SQRT2 - Math.sin(u - v) || 0.001;
+                    target.set(Math.cos(u+v)/den * 0.9, Math.cos(u-v)/den * 0.9, Math.sin(u+v)/den * 0.9);
+                }
+            },
+            {
+                name: "Kuen Constant-Negative Curvature",
+                func: (u, v, target) => {
+                    u = (u - 0.5) * 5.6; v = 0.1 + v * (Math.PI - 0.2);
+                    const su = Math.sin(u), cu = Math.cos(u);
+                    const sv = Math.sin(v), cv = Math.cos(v);
+                    const den = 1.0 + (u**2) * (sv**2) || 0.001;
+                    const x = 2.0 * (cu + u * su) * sv / den;
+                    const y = 2.0 * (su - u * cu) * sv / den;
+                    const z = Math.log(Math.max(1e-4, Math.tan(v/2.0))) + 2.0 * cv / den;
+                    target.set(x * 0.65, z * 0.45, y * 0.65);
+                }
+            },
+            {
+                name: "Trefoil Knot Torus Tube (2,3)",
+                func: (u, v, target) => {
+                    u = u * Math.PI * 2; v = v * Math.PI * 2;
+                    const r_tube = 0.38;
+                    const x0 = Math.sin(u) + 2.0 * Math.sin(2*u);
+                    const y0 = Math.cos(u) - 2.0 * Math.cos(2*u);
+                    const z0 = -Math.sin(3*u);
+                    target.set(
+                        (x0 + r_tube * Math.cos(v)) * 0.5,
+                        (z0 + r_tube * Math.sin(v)) * 0.55,
+                        (y0 + r_tube * Math.cos(v)) * 0.5
+                    );
+                }
+            },
+            {
+                name: "Calabi-Yau 3-Fold Slice",
+                func: (u, v, target) => {
+                    u = u * Math.PI * 2; v = v * Math.PI * 2;
+                    const n = 5.0;
+                    const r = 1.0 + 0.35 * Math.cos(n * u) * Math.sin(n * v);
+                    target.set(
+                        r * Math.cos(u) * Math.sin(v) * 1.3,
+                        0.45 * Math.sin(n * u) * Math.cos(n * v) * 1.5,
+                        r * Math.sin(u) * Math.sin(v) * 1.3
+                    );
+                }
+            }
+        ];
+
+        // Colormap generator for vertex colors
+        function applyColormap(geometry, paletteType) {
+            geometry.computeBoundingBox();
+            const minY = geometry.boundingBox.min.y;
+            const maxY = geometry.boundingBox.max.y;
+            const rangeY = (maxY - minY) || 1.0;
+
+            const count = geometry.attributes.position.count;
+            const colors = new Float32Array(count * 3);
+            const pos = geometry.attributes.position;
+
+            for (let i = 0; i < count; i++) {
+                const y = pos.getY(i);
+                const t = Math.max(0, Math.min(1, (y - minY) / rangeY));
+                
+                let r=1, g=1, b=1;
+                if (paletteType === 'rainbow_box') {
+                    // Jet / Rainbow: Blue -> Cyan -> Green -> Yellow -> Red
+                    const h = (1.0 - t) * 240.0;
+                    const c = new THREE.Color().setHSL(h / 360, 1.0, 0.5);
+                    r = c.r; g = c.g; b = c.b;
+                } else if (paletteType === 'curve_wire') {
+                    // Curve Navy
+                    r = 0.04; g = 0.07; b = 0.16;
+                } else if (paletteType === 'hyper_spectral') {
+                    // Mint to Cyan to Solana Purple
+                    const c1 = new THREE.Color(0x98FCE4);
+                    const c2 = new THREE.Color(0x00E5FF);
+                    const c3 = new THREE.Color(0x9945FF);
+                    const c = t < 0.5 ? c1.clone().lerp(c2, t * 2) : c2.clone().lerp(c3, (t - 0.5) * 2);
+                    r = c.r; g = c.g; b = c.b;
+                } else if (paletteType === 'hud_mono') {
+                    r = 0.9; g = 0.9; b = 0.9;
+                } else if (paletteType === 'magma_glow') {
+                    const c = new THREE.Color().setHSL(0.08 * (1.0 - t), 1.0, 0.2 + 0.6 * t);
+                    r = c.r; g = c.g; b = c.b;
+                }
+
+                colors[i * 3] = r;
+                colors[i * 3 + 1] = g;
+                colors[i * 3 + 2] = b;
+            }
+
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        }
+
+        // Build Surface Mesh
+        function buildSurfaceMesh(surfaceIdx, styleType) {
+            if (currentMesh) scene.remove(currentMesh);
+            if (currentWire) scene.remove(currentWire);
+
+            const surface = SURFACES[surfaceIdx];
+            document.getElementById('hudName').innerText = surface.name;
+
+            // Generate Parametric Geometry using Three.js ParametricGeometry
+            // Slices and stacks match the quad resolution
+            const geom = new THREE.ParametricBufferGeometry(surface.func, 32, 32);
+            geom.computeVertexNormals();
+            applyColormap(geom, styleType);
+
+            let mat;
+            if (styleType === 'curve_wire') {
+                scene.background = new THREE.Color(0xF8FAFC);
+                boxHelperVisibility(false);
+                mat = new THREE.MeshBasicMaterial({ color: 0xF8FAFC, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+            } else {
+                scene.background = new THREE.Color(0x040807);
+                boxHelperVisibility(document.getElementById('checkGridBox').checked);
+                mat = new THREE.MeshStandardMaterial({
+                    vertexColors: true,
+                    roughness: 0.35,
+                    metalness: 0.15,
+                    side: THREE.DoubleSide
+                });
+            }
+
+            currentMesh = new THREE.Mesh(geom, mat);
+            scene.add(currentMesh);
+
+            // Add Quad Wireframe Lines
+            const wireGeo = new THREE.WireframeGeometry(geom);
+            const wireColor = (styleType === 'curve_wire') ? 0x0A1128 : (styleType === 'rainbow_box' ? 0x000000 : 0x98FCE4);
+            const wireMat = new THREE.LineBasicMaterial({
+                color: wireColor,
+                transparent: true,
+                opacity: (styleType === 'curve_wire') ? 0.85 : 0.35,
+                linewidth: 1
+            });
+            currentWire = new THREE.LineSegments(wireGeo, wireMat);
+            currentWire.visible = document.getElementById('checkWire').checked;
+            scene.add(currentWire);
+        }
+
+        function boxHelperVisibility(show) {
+            boxGroup.visible = show;
+        }
+
+        function selectSurface(idx) {
+            selectedSurfaceIdx = idx;
+            document.querySelectorAll('.surface-btn').forEach((b, i) => {
+                b.classList.toggle('active', i === idx);
+            });
+            const style = document.getElementById('styleSelect').value;
+            buildSurfaceMesh(selectedSurfaceIdx, style);
+        }
+
+        function updateStyle() {
+            const style = document.getElementById('styleSelect').value;
+            buildSurfaceMesh(selectedSurfaceIdx, style);
+        }
+
+        function toggleGridBox() {
+            const show = document.getElementById('checkGridBox').checked;
+            boxHelperVisibility(show && document.getElementById('styleSelect').value !== 'curve_wire');
+        }
+
+        function toggleWire() {
+            if (currentWire) currentWire.visible = document.getElementById('checkWire').checked;
+        }
+
+        function toggleRotate() {
+            autoRotate = document.getElementById('checkRotate').checked;
+        }
+
+        function resetCamera() {
+            camera.position.set(3.5, 2.5, 4.5);
+            controls.target.set(0, 0, 0);
+            controls.update();
+        }
+
+        function exportHighResPNG() {
+            // Render at current camera angle
+            renderer.render(scene, camera);
+            const dataURL = renderer.domElement.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.download = `hypersettle_${SURFACES[selectedSurfaceIdx].name.toLowerCase().replace(/[^a-z0-9]/g, '_')}.png`;
+            a.href = dataURL;
+            a.click();
+        }
+
+        // Window Resize
+        window.addEventListener('resize', () => {
+            const w = document.getElementById('viewport').clientWidth;
+            const h = document.getElementById('viewport').clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            if (autoRotate && currentMesh) {
+                currentMesh.rotation.y += 0.008;
+                if (currentWire) currentWire.rotation.y += 0.008;
+            }
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Initialize First Mesh
+        buildSurfaceMesh(0, 'rainbow_box');
+        animate();
+    </script>
+</body>
+</html>
