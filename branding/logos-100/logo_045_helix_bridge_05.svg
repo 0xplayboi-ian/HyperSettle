@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <linearGradient id="grad_45_a" x1="85.4%" y1="85.4%" x2="14.6%" y2="14.6%">
+            <stop offset="0%" stop-color="#FFE600"/>
+            <stop offset="33%" stop-color="#FF6B00"/>
+            <stop offset="66%" stop-color="#FF007A"/>
+            <stop offset="100%" stop-color="#98FCE4"/>
+        </linearGradient>
+        <linearGradient id="grad_45_b" x1="14.6%" y1="85.4%" x2="85.4%" y2="14.6%">
+            <stop offset="0%" stop-color="#98FCE4"/>
+            <stop offset="33%" stop-color="#FF007A"/>
+            <stop offset="66%" stop-color="#FF6B00"/>
+            <stop offset="100%" stop-color="#FFE600"/>
+        </linearGradient>
+        <radialGradient id="bgGlow_45" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#0E1E1C" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#040608" stop-opacity="1.0"/>
+        </radialGradient>
+    </defs>
+    <!-- Background Frame -->
+    <rect width="512" height="512" rx="36" fill="url(#bgGlow_45)"/>
+    <rect width="512" height="512" rx="36" fill="none" stroke="#1F2E2B" stroke-width="1.5"/>
+    
+    <!-- Vector Mark -->
+    <g transform="translate(256,256) rotate(72)">
+        <line x1="0.0" y1="-130" x2="-0.0" y2="-130" stroke="#374151" stroke-width="2.5" stroke-dasharray="3 3"/>
+        <circle cx="0.0" cy="-130" r="12" fill="url(#grad_45_a)"/>
+        <circle cx="-0.0" cy="-130" r="12" fill="url(#grad_45_b)"/>
+        <line x1="71.73560908995228" y1="-88" x2="-71.73560908995228" y2="-88" stroke="#374151" stroke-width="2.5" stroke-dasharray="3 3"/>
+        <circle cx="71.73560908995228" cy="-88" r="12" fill="url(#grad_45_a)"/>
+        <circle cx="-71.73560908995228" cy="-88" r="12" fill="url(#grad_45_b)"/>
+        <line x1="99.95736030415051" y1="-46" x2="-99.95736030415051" y2="-46" stroke="#374151" stroke-width="2.5" stroke-dasharray="3 3"/>
+        <circle cx="99.95736030415051" cy="-46" r="12" fill="url(#grad_45_a)"/>
+        <circle cx="-99.95736030415051" cy="-46" r="12" fill="url(#grad_45_b)"/>
+        <line x1="67.54631805511507" y1="-4" x2="-67.54631805511507" y2="-4" stroke="#374151" stroke-width="2.5" stroke-dasharray="3 3"/>
+        <circle cx="67.54631805511507" cy="-4" r="12" fill="url(#grad_45_a)"/>
+        <circle cx="-67.54631805511507" cy="-4" r="12" fill="url(#grad_45_b)"/>
+        <line x1="-5.8374143427580085" y1="38" x2="5.8374143427580085" y2="38" stroke="#374151" stroke-width="2.5" stroke-dasharray="3 3"/>
+        <circle cx="-5.8374143427580085" cy="38" r="12" fill="url(#grad_45_a)"/>
+        <circle cx="5.8374143427580085" cy="38" r="12" fill="url(#grad_45_b)"/>
+        <line x1="-75.68024953079284" y1="80" x2="75.68024953079284" y2="80" stroke="#374151" stroke-width="2.5" stroke-dasharray="3 3"/>
+        <circle cx="-75.68024953079284" cy="80" r="12" fill="url(#grad_45_a)"/>
+        <circle cx="75.68024953079284" cy="80" r="12" fill="url(#grad_45_b)"/>
+        <line x1="-99.61646088358405" y1="122" x2="99.61646088358405" y2="122" stroke="#374151" stroke-width="2.5" stroke-dasharray="3 3"/>
+        <circle cx="-99.61646088358405" cy="122" r="12" fill="url(#grad_45_a)"/>
+        <circle cx="99.61646088358405" cy="122" r="12" fill="url(#grad_45_b)"/>
+        
+            <path d="M -80 -130 Q -10 -40 -80 40 T -80 130" fill="none" stroke="url(#grad_45_a)" stroke-width="16" stroke-linecap="round" opacity="0.85"/>
+            <path d="M 80 -130 Q 10 -40 80 40 T 80 130" fill="none" stroke="url(#grad_45_b)" stroke-width="16" stroke-linecap="round" opacity="0.85"/>
+            
+        </g>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <linearGradient id="grad_87_a" x1="3.3%" y1="67.9%" x2="96.7%" y2="32.1%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="33%" stop-color="#98FCE4"/>
+            <stop offset="66%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#042F2E"/>
+        </linearGradient>
+        <linearGradient id="grad_87_b" x1="3.3%" y1="32.1%" x2="96.7%" y2="67.9%">
+            <stop offset="0%" stop-color="#042F2E"/>
+            <stop offset="33%" stop-color="#10B981"/>
+            <stop offset="66%" stop-color="#98FCE4"/>
+            <stop offset="100%" stop-color="#FFFFFF"/>
+        </linearGradient>
+        <radialGradient id="bgGlow_87" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#0E1E1C" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#040608" stop-opacity="1.0"/>
+        </radialGradient>
+    </defs>
+    <!-- Background Frame -->
+    <rect width="512" height="512" rx="36" fill="url(#bgGlow_87)"/>
+    <rect width="512" height="512" rx="36" fill="none" stroke="#1F2E2B" stroke-width="1.5"/>
+    
+    <!-- Vector Mark -->
+    
+            <g transform="translate(256,256) rotate(60)">
+                <!-- S-Wave Backbone -->
+                <path d="M 80 -120 C -40 -120 -80 -40 0 0 C 80 40 40 120 -80 120" 
+                      fill="none" stroke="url(#grad_87_a)" stroke-width="32" stroke-linecap="round"/>
+                <!-- Intersecting H-Pillar Left -->
+                <path d="M -90 -140 L -90 140" 
+                      fill="none" stroke="url(#grad_87_b)" stroke-width="22" stroke-linecap="round" opacity="0.85"/>
+                <!-- Intersecting H-Pillar Right -->
+                <path d="M 90 -140 L 90 140" 
+                      fill="none" stroke="url(#grad_87_b)" stroke-width="22" stroke-linecap="round" opacity="0.85"/>
+                <!-- Accent Glowing Dots -->
+                <circle cx="80" cy="-120" r="16" fill="#FFFFFF"/>
+                <circle cx="-80" cy="120" r="16" fill="#98FCE4"/>
+            </g>
+</svg>

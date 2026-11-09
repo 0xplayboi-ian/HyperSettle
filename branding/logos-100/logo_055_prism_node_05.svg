@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <linearGradient id="grad_55_a" x1="78.7%" y1="91.0%" x2="21.3%" y2="9.0%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="33%" stop-color="#98FCE4"/>
+            <stop offset="66%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#042F2E"/>
+        </linearGradient>
+        <linearGradient id="grad_55_b" x1="78.7%" y1="9.0%" x2="21.3%" y2="91.0%">
+            <stop offset="0%" stop-color="#042F2E"/>
+            <stop offset="33%" stop-color="#10B981"/>
+            <stop offset="66%" stop-color="#98FCE4"/>
+            <stop offset="100%" stop-color="#FFFFFF"/>
+        </linearGradient>
+        <radialGradient id="bgGlow_55" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#0E1E1C" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#040608" stop-opacity="1.0"/>
+        </radialGradient>
+    </defs>
+    <!-- Background Frame -->
+    <rect width="512" height="512" rx="36" fill="url(#bgGlow_55)"/>
+    <rect width="512" height="512" rx="36" fill="none" stroke="#1F2E2B" stroke-width="1.5"/>
+    
+    <!-- Vector Mark -->
+    <g transform="translate(256,256) rotate(60)">
+        <path d="M 160.0 0.0 L 65.0 37.5 L 80.0 138.6 L 0.0 75.0 L -80.0 138.6 L -65.0 37.5 L -160.0 0.0 L -65.0 -37.5 L -80.0 -138.6 L -0.0 -75.0 L 80.0 -138.6 L 65.0 -37.5 Z" fill="url(#grad_55_a)" opacity="0.85"/>
+        <circle cx="0" cy="0" r="50" fill="url(#grad_55_b)"/>
+        <circle cx="0" cy="0" r="22" fill="#FFFFFF"/>
+        <circle cx="160.0" cy="0.0" r="9" fill="#FFFFFF"/>
+        <circle cx="80.0" cy="138.6" r="9" fill="#FFFFFF"/>
+        <circle cx="-80.0" cy="138.6" r="9" fill="#FFFFFF"/>
+        <circle cx="-160.0" cy="0.0" r="9" fill="#FFFFFF"/>
+        <circle cx="-80.0" cy="-138.6" r="9" fill="#FFFFFF"/>
+        <circle cx="80.0" cy="-138.6" r="9" fill="#FFFFFF"/>
+        </g>
+</svg>

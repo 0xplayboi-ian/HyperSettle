@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <linearGradient id="grad_69_a" x1="8.1%" y1="22.8%" x2="91.9%" y2="77.2%">
+            <stop offset="0%" stop-color="#FFE600"/>
+            <stop offset="33%" stop-color="#FF6B00"/>
+            <stop offset="66%" stop-color="#FF007A"/>
+            <stop offset="100%" stop-color="#98FCE4"/>
+        </linearGradient>
+        <linearGradient id="grad_69_b" x1="91.9%" y1="22.8%" x2="8.1%" y2="77.2%">
+            <stop offset="0%" stop-color="#98FCE4"/>
+            <stop offset="33%" stop-color="#FF007A"/>
+            <stop offset="66%" stop-color="#FF6B00"/>
+            <stop offset="100%" stop-color="#FFE600"/>
+        </linearGradient>
+        <radialGradient id="bgGlow_69" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#0E1E1C" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#040608" stop-opacity="1.0"/>
+        </radialGradient>
+    </defs>
+    <!-- Background Frame -->
+    <rect width="512" height="512" rx="36" fill="url(#bgGlow_69)"/>
+    <rect width="512" height="512" rx="36" fill="none" stroke="#1F2E2B" stroke-width="1.5"/>
+    
+    <!-- Vector Mark -->
+    <g transform="translate(256,256)">
+        
+                <circle cx="0" cy="0" r="50" fill="none" stroke="url(#grad_69_a)" 
+                        stroke-width="10" stroke-dasharray="20 15" transform="rotate(162)" opacity="0.9"/>
+                
+        
+                <circle cx="0" cy="0" r="85" fill="none" stroke="url(#grad_69_b)" 
+                        stroke-width="12" stroke-dasharray="35 23" transform="rotate(207)" opacity="0.9"/>
+                
+        
+                <circle cx="0" cy="0" r="120" fill="none" stroke="url(#grad_69_a)" 
+                        stroke-width="14" stroke-dasharray="50 31" transform="rotate(252)" opacity="0.9"/>
+                
+        
+                <circle cx="0" cy="0" r="155" fill="none" stroke="url(#grad_69_b)" 
+                        stroke-width="16" stroke-dasharray="65 39" transform="rotate(297)" opacity="0.9"/>
+                
+        <circle cx="0" cy="0" r="30" fill="url(#grad_69_a)"/>
+        <circle cx="0" cy="0" r="14" fill="#FFFFFF"/>
+        </g>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <linearGradient id="grad_26_a" x1="73.5%" y1="94.1%" x2="26.5%" y2="5.9%">
+            <stop offset="0%" stop-color="#FF007A"/>
+            <stop offset="33%" stop-color="#7928CA"/>
+            <stop offset="66%" stop-color="#0070F3"/>
+            <stop offset="100%" stop-color="#00F5A0"/>
+        </linearGradient>
+        <linearGradient id="grad_26_b" x1="5.9%" y1="26.5%" x2="94.1%" y2="73.5%">
+            <stop offset="0%" stop-color="#00F5A0"/>
+            <stop offset="33%" stop-color="#0070F3"/>
+            <stop offset="66%" stop-color="#7928CA"/>
+            <stop offset="100%" stop-color="#FF007A"/>
+        </linearGradient>
+        <radialGradient id="bgGlow_26" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#0E1E1C" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#040608" stop-opacity="1.0"/>
+        </radialGradient>
+    </defs>
+    <!-- Background Frame -->
+    <rect width="512" height="512" rx="36" fill="url(#bgGlow_26)"/>
+    <rect width="512" height="512" rx="36" fill="none" stroke="#1F2E2B" stroke-width="1.5"/>
+    
+    <!-- Vector Mark -->
+    <g transform="translate(256,256)">
+        
+                <ellipse cx="0" cy="0" rx="160" ry="65" fill="none" stroke="url(#grad_26_a)" 
+                         stroke-width="14" stroke-linecap="round" transform="rotate(90)" opacity="0.9"/>
+                <circle cx="160" cy="0" r="10" fill="#FFFFFF" transform="rotate(90)"/>
+                
+        
+                <ellipse cx="0" cy="0" rx="132" ry="79" fill="none" stroke="url(#grad_26_b)" 
+                         stroke-width="12" stroke-linecap="round" transform="rotate(135)" opacity="0.8"/>
+                <circle cx="132" cy="0" r="9" fill="#FFFFFF" transform="rotate(135)"/>
+                
+        
+                <ellipse cx="0" cy="0" rx="104" ry="93" fill="none" stroke="url(#grad_26_a)" 
+                         stroke-width="10" stroke-linecap="round" transform="rotate(180)" opacity="0.7"/>
+                <circle cx="104" cy="0" r="8" fill="#FFFFFF" transform="rotate(180)"/>
+                
+        <circle cx="0" cy="0" r="38" fill="url(#grad_26_a)"/>
+        <circle cx="0" cy="0" r="18" fill="#FFFFFF" opacity="0.8"/>
+        </g>
+</svg>
