@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <radialGradient id="hyb_bg_20" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#081816"/>
+            <stop offset="60%" stop-color="#020807"/>
+            <stop offset="100%" stop-color="#000000"/>
+        </radialGradient>
+        <linearGradient id="hyb_grad_20_a" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#98FCE4"/>
+            <stop offset="45%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="#9945FF"/>
+        </linearGradient>
+        <linearGradient id="hyb_grad_20_b" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FF007A"/>
+            <stop offset="50%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="#98FCE4"/>
+        </linearGradient>
+    </defs>
+    <rect width="512" height="512" rx="36" fill="url(#hyb_bg_20)"/>
+    <rect width="512" height="512" rx="36" fill="none" stroke="#162E29" stroke-width="1.5"/>
+    
+    <!-- Hybrid Vector Mark -->
+    <g transform="translate(256, 256)">
+        <path d="M 0 -140 C 90 -140 140 -80 140 0 C 140 60 90 90 40 60 C -10 30 10 -20 0 0" 
+              fill="none" stroke="url(#hyb_grad_20_a)" stroke-width="26" stroke-linecap="round"/>
+        <path d="M 0 140 C -90 140 -140 80 -140 0 C -140 -60 -90 -90 -40 -60 C 10 -30 -10 20 0 0" 
+              fill="none" stroke="url(#hyb_grad_20_b)" stroke-width="26" stroke-linecap="round"/>
+        <circle cx="0" cy="0" r="18" fill="#000000" stroke="#FFFFFF" stroke-width="2.5"/>
+    </g>
+</svg>

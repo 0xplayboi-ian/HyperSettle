@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <radialGradient id="hyb_bg_10" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#081816"/>
+            <stop offset="60%" stop-color="#020807"/>
+            <stop offset="100%" stop-color="#000000"/>
+        </radialGradient>
+        <linearGradient id="hyb_grad_10_a" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#98FCE4"/>
+            <stop offset="45%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="#9945FF"/>
+        </linearGradient>
+        <linearGradient id="hyb_grad_10_b" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FF007A"/>
+            <stop offset="50%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="#98FCE4"/>
+        </linearGradient>
+    </defs>
+    <rect width="512" height="512" rx="36" fill="url(#hyb_bg_10)"/>
+    <rect width="512" height="512" rx="36" fill="none" stroke="#162E29" stroke-width="1.5"/>
+    
+    <!-- Hybrid Vector Mark -->
+    <g transform="translate(256, 256)">
+        <ellipse cx="-75" cy="0" rx="80" ry="60" fill="none" stroke="url(#hyb_grad_10_a)" stroke-width="24"/>
+        <ellipse cx="75" cy="0" rx="80" ry="60" fill="none" stroke="url(#hyb_grad_10_b)" stroke-width="24"/>
+        <circle cx="-75" cy="0" r="20" fill="#000000" stroke="#98FCE4" stroke-width="2.5"/>
+        <circle cx="75" cy="0" r="20" fill="#000000" stroke="#FF007A" stroke-width="2.5"/>
+    </g>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+        <radialGradient id="hyb_bg_1" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#081816"/>
+            <stop offset="60%" stop-color="#020807"/>
+            <stop offset="100%" stop-color="#000000"/>
+        </radialGradient>
+        <linearGradient id="hyb_grad_1_a" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#98FCE4"/>
+            <stop offset="45%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="#9945FF"/>
+        </linearGradient>
+        <linearGradient id="hyb_grad_1_b" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FF007A"/>
+            <stop offset="50%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="#98FCE4"/>
+        </linearGradient>
+    </defs>
+    <rect width="512" height="512" rx="36" fill="url(#hyb_bg_1)"/>
+    <rect width="512" height="512" rx="36" fill="none" stroke="#162E29" stroke-width="1.5"/>
+    
+    <!-- Hybrid Vector Mark -->
+    <g transform="translate(256, 256)">
+        <path d="M 0 -170 C 80 -60 140 30 140 110 C 140 185 80 230 0 230 C -80 230 -140 185 -140 110 C -140 30 -80 -60 0 -170 Z" 
+              fill="url(#hyb_grad_1_a)"/>
+        <!-- Internal Gravitational Black Hole Void -->
+        <path d="M 0 -70 C 35 -20 60 20 60 65 C 60 100 35 125 0 125 C -35 125 -60 100 -60 65 C -60 20 -35 -20 0 -70 Z" 
+              fill="#000000"/>
+        <!-- Exponential Plunge Wire inside Droplet -->
+        <path d="M -50 -10 C -10 30 -2 55 0 65 C 2 55 10 30 50 -10" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+        <circle cx="0" cy="65" r="5" fill="#98FCE4"/>
+        <!-- Specular Bubble Reflection -->
+        <ellipse cx="-45" cy="50" rx="18" ry="36" transform="rotate(-25 -45 50)" fill="#FFFFFF" opacity="0.35"/>
+    </g>
+</svg>
