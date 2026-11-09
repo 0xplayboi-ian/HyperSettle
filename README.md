@@ -1,8 +1,19 @@
+<p align="center">
+  <img src="branding/official-logo/hypersettle-social-card-1200x630.png" alt="HyperSettle Logo" width="100%" />
+</p>
+
 # HyperSettle ⚡
 
 > **The non-custodial revenue reconciliation and Solana settlement engine for Hyperliquid builder teams.**
 
 Built for **Colosseum Eternal** (Payments & Developer Tooling Track).
+
+<p align="center">
+  <a href="branding/showcase_scientific_differential_geometry.html"><b>🔬 Scientific 3D Suite</b></a> •
+  <a href="branding/3d_parametric_studio.html"><b>🎮 3D Parametric Studio (50 Shapes)</b></a> •
+  <a href="branding/showcase_3d_mesh_100.html"><b>📐 100 3D Mesh Logos</b></a> •
+  <a href="branding/brand_cards_showcase.html"><b>🎴 Brand Cards</b></a>
+</p>
 
 ---
 
