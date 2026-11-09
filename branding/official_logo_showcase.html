@@ -6,7 +6,7 @@
   <title>HyperSettle • Official Brand Logo & Production Assets</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #030706;
@@ -27,13 +27,13 @@
       color: var(--text);
       font-family: var(--sans);
       line-height: 1.6;
-      padding-bottom: 100px;
+      padding-bottom: 120px;
     }
 
     header {
       background: linear-gradient(180deg, rgba(10, 18, 16, 0.95) 0%, rgba(3, 7, 6, 0.9) 100%);
       border-bottom: 1px solid var(--card-border);
-      padding: 48px 32px;
+      padding: 40px 32px;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -106,13 +106,13 @@
       padding: 0 32px;
       display: flex;
       flex-direction: column;
-      gap: 48px;
+      gap: 52px;
     }
 
     .section-title {
       font-size: 22px;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       color: #ffffff;
       display: flex;
       align-items: center;
@@ -121,7 +121,7 @@
     .section-desc {
       font-size: 13px;
       color: var(--text-muted);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     /* Social Card Hero */
@@ -146,14 +146,70 @@
       align-items: center;
     }
 
+    /* Masters 5 Grid */
+    .masters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .master-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .master-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 245, 212, 0.4);
+    }
+    .master-preview {
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+    .master-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .master-preview.light { background: #FFFFFF; }
+    .master-preview.dark { background: #000000; }
+    .master-preview.checkerboard {
+      background-image: linear-gradient(45deg, #18221e 25%, transparent 25%), 
+                        linear-gradient(-45deg, #18221e 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #18221e 75%), 
+                        linear-gradient(-45deg, transparent 75%, #18221e 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+      background-color: #0b1411;
+    }
+    .master-footer {
+      padding: 12px 16px;
+      background: #060D0B;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .master-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
     /* Lockups Grid */
     .lockup-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-    @media (max-width: 900px) {
-      .lockup-grid { grid-template-columns: 1fr; }
+      grid-template-columns: 1fr;
+      gap: 20px;
     }
     .lockup-card {
       background: var(--card-bg);
@@ -168,7 +224,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 240px;
+      min-height: 220px;
     }
     .lockup-preview img {
       max-width: 100%;
@@ -188,65 +244,17 @@
       font-size: 11px;
     }
 
-    /* Variants Grid */
-    .variants-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .variant-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .variant-preview {
-      height: 220px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      position: relative;
-    }
-    .variant-preview.checkerboard {
-      background-image: linear-gradient(45deg, #18221e 25%, transparent 25%), 
-                        linear-gradient(-45deg, #18221e 25%, transparent 25%), 
-                        linear-gradient(45deg, transparent 75%, #18221e 75%), 
-                        linear-gradient(-45deg, transparent 75%, #18221e 75%);
-      background-size: 16px 16px;
-      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
-      background-color: #0b1411;
-    }
-    .variant-preview.white { background: #FFFFFF; }
-    .variant-preview.dark { background: #030706; }
-    .variant-preview img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .variant-footer {
-      padding: 12px 16px;
-      background: #060D0B;
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--mono);
-      font-size: 11px;
-    }
-
     .btn-download {
       font-family: var(--mono);
       font-size: 11px;
       color: #030706;
       background: var(--mint);
-      padding: 5px 12px;
+      padding: 6px 12px;
       border-radius: 5px;
       text-decoration: none;
       font-weight: 700;
       transition: all 0.15s;
+      text-align: center;
     }
     .btn-download:hover {
       background: #FFFFFF;
@@ -258,7 +266,7 @@
 
   <header>
     <div class="header-content">
-      <span class="badge">Official Brand Asset System</span>
+      <span class="badge">Production Brand Asset System</span>
       <h1>HyperSettle: Official Mathematical Brand Suite</h1>
       <p class="lead">
         The official mathematical differential geometry logo mark for HyperSettle. Embodying the <strong>topological wireframe aesthetic of Curve Finance</strong>, the <strong>spacetime curvature of 33rd Tree Labs</strong>, and the <strong>non-custodial finality of Hyperliquid &amp; Solana</strong>.
@@ -276,30 +284,111 @@
 
   <main class="container">
 
-    <!-- 1. Social Banner / GitHub Readme Card -->
+    <!-- 1. Master Exports Showcase -->
     <section>
       <div class="section-title">
         <span>01</span>
-        <h2>Official Brand Banner &amp; Social Card (1200×630)</h2>
+        <h2>Your 5 Curated 3D Studio Master Exports</h2>
       </div>
-      <p class="section-desc">Primary production banner for GitHub repository, Twitter/X OpenGraph, Colosseum Eternal portal, and investor pitch decks.</p>
+      <p class="section-desc">The five refined master renders exported directly from the 3D Parametric Studio, covering transparent alphas, dark/light solids, and the bold geometric quad grid.</p>
+      
+      <div class="masters-grid">
+        <!-- Master 01: Transparent Navy -->
+        <div class="master-card">
+          <div class="master-preview checkerboard">
+            <img src="official-logo/user-masters/01_master_trans_navy.png" alt="Master 01 Transparent Navy">
+          </div>
+          <div class="master-footer">
+            <div class="master-info">
+              <strong style="color:var(--cyan);">01 • Transparent Navy</strong>
+              <span>PNG (Alpha)</span>
+            </div>
+            <a href="official-logo/user-masters/01_master_trans_navy.png" download class="btn-download">Download Master PNG</a>
+          </div>
+        </div>
+
+        <!-- Master 04: Transparent White -->
+        <div class="master-card">
+          <div class="master-preview checkerboard">
+            <img src="official-logo/user-masters/04_master_trans_white.png" alt="Master 04 Transparent White">
+          </div>
+          <div class="master-footer">
+            <div class="master-info">
+              <strong style="color:#ffffff;">02 • Transparent White</strong>
+              <span>PNG (Alpha)</span>
+            </div>
+            <a href="official-logo/user-masters/04_master_trans_white.png" download class="btn-download">Download Master PNG</a>
+          </div>
+        </div>
+
+        <!-- Master 02: Dark Solid -->
+        <div class="master-card">
+          <div class="master-preview dark">
+            <img src="official-logo/user-masters/02_master_dark_solid.jpg" alt="Master 02 Dark Solid">
+          </div>
+          <div class="master-footer">
+            <div class="master-info">
+              <strong style="color:var(--text-muted);">03 • Dark Solid</strong>
+              <span>1024×810 JPG</span>
+            </div>
+            <a href="official-logo/user-masters/02_master_dark_solid.jpg" download class="btn-download">Download JPG</a>
+          </div>
+        </div>
+
+        <!-- Master 03: Light Solid -->
+        <div class="master-card">
+          <div class="master-preview light">
+            <img src="official-logo/user-masters/03_master_light_solid.jpg" alt="Master 03 Light Solid">
+          </div>
+          <div class="master-footer">
+            <div class="master-info">
+              <strong style="color:#0D1B2A;">04 • Light Solid</strong>
+              <span>1024×810 JPG</span>
+            </div>
+            <a href="official-logo/user-masters/03_master_light_solid.jpg" download class="btn-download">Download JPG</a>
+          </div>
+        </div>
+
+        <!-- Master 05: Bold / Coarse Wireframe -->
+        <div class="master-card">
+          <div class="master-preview light">
+            <img src="official-logo/user-masters/05_master_bold_wire.jpg" alt="Master 05 Bold Geometric">
+          </div>
+          <div class="master-footer">
+            <div class="master-info">
+              <strong style="color:var(--mint);">05 • Bold Quad Mesh</strong>
+              <span>Coarse Grid</span>
+            </div>
+            <a href="official-logo/user-masters/05_master_bold_wire.jpg" download class="btn-download">Download Bold JPG</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Social Card Hero Banner -->
+    <section>
+      <div class="section-title">
+        <span>02</span>
+        <h2>Official Social Banner &amp; GitHub Card (1200×630)</h2>
+      </div>
+      <p class="section-desc">Production card for GitHub OpenGraph, Twitter/X, Colosseum portal, and pitch decks.</p>
       
       <div class="hero-banner-card">
         <img src="official-logo/hypersettle-social-card-1200x630.png" alt="HyperSettle Official Social Card">
         <div class="hero-actions">
-          <span style="font-family:var(--mono); font-size:12px; color:var(--text-muted);">Format: 1200×630 PNG • 300 DPI Ready</span>
+          <span style="font-family:var(--mono); font-size:12px; color:var(--text-muted);">1200×630 PNG • 300 DPI Ready</span>
           <a href="official-logo/hypersettle-social-card-1200x630.png" download class="btn-download">Download 1200×630 Card</a>
         </div>
       </div>
     </section>
 
-    <!-- 2. Official Brand Lockups -->
+    <!-- 3. Horizontal Brand Lockups -->
     <section>
       <div class="section-title">
-        <span>02</span>
-        <h2>Horizontal Brand Lockups</h2>
+        <span>03</span>
+        <h2>Horizontal Brand Lockups (1400×480)</h2>
       </div>
-      <p class="section-desc">Typography lockups pairing the 3D differential geometry mark with geometric sans and monospace engineering metadata.</p>
+      <p class="section-desc">Pairing the 3D differential geometry mark with Helvetica Bold and monospace engineering metadata.</p>
       
       <div class="lockup-grid">
         <!-- Light Lockup (Curve Style) -->
@@ -308,121 +397,89 @@
             <img src="official-logo/hypersettle-lockup-horizontal-light.png" alt="HyperSettle Light Lockup">
           </div>
           <div class="lockup-footer">
-            <span style="color:#0D1B2A; font-weight:700;">Curve Pure White Lockup (1400×480)</span>
-            <a href="official-logo/hypersettle-lockup-horizontal-light.png" download class="btn-download">Download</a>
+            <span style="color:#0D1B2A; font-weight:700;">Curve Pure White Lockup</span>
+            <a href="official-logo/hypersettle-lockup-horizontal-light.png" download class="btn-download">Download PNG</a>
           </div>
         </div>
 
-        <!-- Dark Lockup (Hyperliquid Style) -->
+        <!-- Dark Lockup Mint (Hyperliquid Style) -->
         <div class="lockup-card">
           <div class="lockup-preview dark">
-            <img src="official-logo/hypersettle-lockup-horizontal-dark.png" alt="HyperSettle Dark Lockup">
+            <img src="official-logo/hypersettle-lockup-horizontal-dark.png" alt="HyperSettle Dark Mint Lockup">
           </div>
           <div class="lockup-footer">
-            <span style="color:var(--mint); font-weight:700;">Obsidian &amp; Mint Lockup (1400×480)</span>
-            <a href="official-logo/hypersettle-lockup-horizontal-dark.png" download class="btn-download">Download</a>
+            <span style="color:var(--mint); font-weight:700;">Obsidian &amp; Hyper Mint Lockup</span>
+            <a href="official-logo/hypersettle-lockup-horizontal-dark.png" download class="btn-download">Download PNG</a>
+          </div>
+        </div>
+
+        <!-- Dark Lockup White Wireframe -->
+        <div class="lockup-card">
+          <div class="lockup-preview dark">
+            <img src="official-logo/hypersettle-lockup-horizontal-dark-white.png" alt="HyperSettle Dark White Lockup">
+          </div>
+          <div class="lockup-footer">
+            <span style="color:#ffffff; font-weight:700;">Obsidian &amp; White Wireframe Lockup</span>
+            <a href="official-logo/hypersettle-lockup-horizontal-dark-white.png" download class="btn-download">Download PNG</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 3. Transparent Alpha Marks -->
-    <section>
-      <div class="section-title">
-        <span>03</span>
-        <h2>Transparent Alpha Vector Marks</h2>
-      </div>
-      <p class="section-desc">Background-stripped transparent PNG marks with preserved anti-aliased wireframe lines for dark and light backgrounds.</p>
-      
-      <div class="variants-grid">
-        <div class="variant-card">
-          <div class="variant-preview white">
-            <img src="official-logo/hypersettle-mark-transparent-navy.png" alt="Curve Navy Mark">
-          </div>
-          <div class="variant-footer">
-            <span>Curve Navy Transparent</span>
-            <a href="official-logo/hypersettle-mark-transparent-navy.png" download class="btn-download">PNG</a>
-          </div>
-        </div>
-
-        <div class="variant-card">
-          <div class="variant-preview checkerboard">
-            <img src="official-logo/hypersettle-mark-transparent-mint.png" alt="Hyperliquid Mint Mark">
-          </div>
-          <div class="variant-footer">
-            <span style="color:var(--mint);">Hyper Mint Transparent</span>
-            <a href="official-logo/hypersettle-mark-transparent-mint.png" download class="btn-download">PNG</a>
-          </div>
-        </div>
-
-        <div class="variant-card">
-          <div class="variant-preview checkerboard">
-            <img src="official-logo/hypersettle-mark-transparent-cyan.png" alt="Electric Cyan Mark">
-          </div>
-          <div class="variant-footer">
-            <span style="color:var(--cyan);">Electric Cyan Transparent</span>
-            <a href="official-logo/hypersettle-mark-transparent-cyan.png" download class="btn-download">PNG</a>
-          </div>
-        </div>
-
-        <div class="variant-card">
-          <div class="variant-preview checkerboard">
-            <img src="official-logo/hypersettle-mark-transparent-white.png" alt="Pure White Mark">
-          </div>
-          <div class="variant-footer">
-            <span>Pure White Transparent</span>
-            <a href="official-logo/hypersettle-mark-transparent-white.png" download class="btn-download">PNG</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Square Profile Avatars & App Icons -->
+    <!-- 4. Square Profile Avatars -->
     <section>
       <div class="section-title">
         <span>04</span>
-        <h2>Profile Avatars &amp; Favicons (800×800)</h2>
+        <h2>Square Profile Avatars &amp; App Icons (800×800)</h2>
       </div>
-      <p class="section-desc">1:1 square lockups formatted for GitHub organization, Twitter/X profile, Discord bot, and web favicon.</p>
+      <p class="section-desc">1:1 square lockups formatted for GitHub organization, Twitter/X profile, Discord bot, and web app.</p>
       
-      <div class="variants-grid">
-        <div class="variant-card">
-          <div class="variant-preview white">
+      <div class="masters-grid">
+        <div class="master-card">
+          <div class="master-preview light">
             <img src="official-logo/hypersettle-avatar-light-800x800.png" alt="Light Avatar">
           </div>
-          <div class="variant-footer">
-            <span>Light Avatar (800×800)</span>
-            <a href="official-logo/hypersettle-avatar-light-800x800.png" download class="btn-download">PNG</a>
+          <div class="master-footer">
+            <div class="master-info">
+              <span>Light Fine Avatar</span>
+              <a href="official-logo/hypersettle-avatar-light-800x800.png" download class="btn-download">PNG</a>
+            </div>
           </div>
         </div>
 
-        <div class="variant-card">
-          <div class="variant-preview dark">
-            <img src="official-logo/hypersettle-avatar-dark-800x800.png" alt="Obsidian Avatar">
+        <div class="master-card">
+          <div class="master-preview dark">
+            <img src="official-logo/hypersettle-avatar-dark-white-800x800.png" alt="Dark White Avatar">
           </div>
-          <div class="variant-footer">
-            <span style="color:var(--mint);">Obsidian Avatar (800×800)</span>
-            <a href="official-logo/hypersettle-avatar-dark-800x800.png" download class="btn-download">PNG</a>
-          </div>
-        </div>
-
-        <div class="variant-card">
-          <div class="variant-preview" style="background:#0A1128;">
-            <img src="official-logo/hypersettle-avatar-navy-800x800.png" alt="Navy Avatar">
-          </div>
-          <div class="variant-footer">
-            <span style="color:var(--cyan);">Navy Avatar (800×800)</span>
-            <a href="official-logo/hypersettle-avatar-navy-800x800.png" download class="btn-download">PNG</a>
+          <div class="master-footer">
+            <div class="master-info">
+              <span style="color:#ffffff;">Dark White Avatar</span>
+              <a href="official-logo/hypersettle-avatar-dark-white-800x800.png" download class="btn-download">PNG</a>
+            </div>
           </div>
         </div>
 
-        <div class="variant-card">
-          <div class="variant-preview white">
-            <img src="official-logo/apple-touch-icon.png" alt="Apple Touch Icon" style="width:96px; height:96px;">
+        <div class="master-card">
+          <div class="master-preview dark">
+            <img src="official-logo/hypersettle-avatar-dark-800x800.png" alt="Dark Mint Avatar">
           </div>
-          <div class="variant-footer">
-            <span>Apple Touch (180×180)</span>
-            <a href="official-logo/apple-touch-icon.png" download class="btn-download">Icon</a>
+          <div class="master-footer">
+            <div class="master-info">
+              <span style="color:var(--mint);">Dark Mint Avatar</span>
+              <a href="official-logo/hypersettle-avatar-dark-800x800.png" download class="btn-download">PNG</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="master-card">
+          <div class="master-preview light">
+            <img src="official-logo/hypersettle-avatar-bold-light-800x800.png" alt="Bold Avatar">
+          </div>
+          <div class="master-footer">
+            <div class="master-info">
+              <span style="color:var(--cyan);">Bold Mesh Avatar</span>
+              <a href="official-logo/hypersettle-avatar-bold-light-800x800.png" download class="btn-download">PNG</a>
+            </div>
           </div>
         </div>
       </div>
