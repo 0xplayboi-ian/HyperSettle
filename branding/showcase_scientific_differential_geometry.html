@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HyperSettle — Scientific Differential Geometry & Curve Finance 3D Logo Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --mint: #00f5d4;
+      --cyan: #00bbf9;
+      --electric-green: #70e000;
+      --accent: #38bdf8;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.95) 0%, rgba(9, 13, 22, 0.9) 100%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 40px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .badge-mint { background: rgba(0, 245, 212, 0.15); color: var(--mint); border: 1px solid rgba(0, 245, 212, 0.3); }
+    .badge-cyan { background: rgba(0, 187, 249, 0.15); color: var(--cyan); border: 1px solid rgba(0, 187, 249, 0.3); }
+    .badge-green { background: rgba(112, 224, 0, 0.15); color: var(--electric-green); border: 1px solid rgba(112, 224, 0, 0.3); }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 0%, var(--mint) 60%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .lead {
+      color: var(--text-muted);
+      font-size: 14px;
+      max-width: 900px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 6px 12px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .nav-link.active {
+      background: var(--mint);
+      color: #090d16;
+      border-color: var(--mint);
+      font-weight: 700;
+    }
+
+    .view-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      background: #111827;
+      padding: 6px;
+      border-radius: 8px;
+      width: fit-content;
+      border: 1px solid var(--card-border);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--cyan);
+      color: #090d16;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 32px auto 0;
+      padding: 0 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 245, 212, 0.4);
+    }
+
+    .card-media {
+      position: relative;
+      background: #ffffff;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .card-media img {
+      max-width: 100%;
+      height: auto;
+      max-height: 320px;
+      object-fit: contain;
+      display: block;
+      transition: opacity 0.2s;
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-grow: 1;
+    }
+
+    .card-id {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--mint);
+      letter-spacing: 0.05em;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .card-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .card-eq {
+      font-family: var(--mono);
+      font-size: 11px;
+      background: #090d16;
+      border: 1px solid #1f2937;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: #93c5fd;
+      word-break: break-all;
+    }
+
+    .card-actions {
+      margin-top: auto;
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-download {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #090d16;
+      background: var(--mint);
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: #ffffff;
+    }
+
+    .btn-3d {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--cyan);
+      background: rgba(0, 187, 249, 0.1);
+      border: 1px solid rgba(0, 187, 249, 0.3);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-3d:hover {
+      background: var(--cyan);
+      color: #090d16;
+    }
+
+    /* Modal for 3D inspection */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-window {
+      background: #0d131f;
+      border: 1px solid var(--cyan);
+      border-radius: 14px;
+      width: 90vw;
+      max-width: 1000px;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 245, 212, 0.2);
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #1f2937;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+      color: var(--mint);
+      font-family: var(--mono);
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: #9ca3af;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .modal-close:hover { color: #fff; }
+
+    #threejs-canvas-container {
+      flex-grow: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .modal-footer {
+      padding: 12px 24px;
+      border-top: 1px solid #1f2937;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .switch-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 8px;
+      background: #1f2937;
+      color: #fff;
+      border: 1px solid #374151;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div class="badge-row">
+        <span class="badge badge-mint">Colosseum Eternal Sprint</span>
+        <span class="badge badge-cyan">Curve Finance & Matplotlib Archetypes</span>
+        <span class="badge badge-green">10 Differential Geometry Manifolds</span>
+      </div>
+      <h1>HyperSettle: Scientific Differential Geometry 3D Logo Suite</h1>
+      <p class="lead">
+        Engineered using rigorous differential geometry parameterizations in Python Matplotlib and Blender 5.2.
+        Features the <strong>Figure-8 Klein Bottle</strong> (User Reference 1: Matplotlib Jet colormap + 3D coordinate box), 
+        <strong>Boy's Surface</strong> (User Reference 2: Michael Egorov's Curve Finance topological wireframe), 
+        and the <strong>33rd Tree Spacetime Singularity Funnel</strong>.
+      </p>
+
+      <div class="nav-links">
+        <a href="showcase_scientific_differential_geometry.html" class="nav-link active">🔬 Scientific 3D Suite (10 Manifolds)</a>
+        <a href="showcase_3d_mesh_100.html" class="nav-link">📐 100 3D Mesh Grid Logos</a>
+        <a href="3d_parametric_studio.html" class="nav-link">🎮 Live 3D WebGL Studio</a>
+        <a href="showcase_3d_and_hybrids.html" class="nav-link">🌀 33rd Black Hole & Hybrids</a>
+        <a href="brand_cards_showcase.html" class="nav-link">🎴 Brand Cards Suite</a>
+        <a href="index.html" class="nav-link">⚡ 100 Fluid Logos</a>
+      </div>
+
+      <div class="view-controls">
+        <button class="tab-btn active" onclick="switchView('brand-lockups')">Curve Finance Brand Lockups</button>
+        <button class="tab-btn" onclick="switchView('scientific-plots')">Scientific Matplotlib 3D Plots (Jet/Box)</button>
+        <button class="tab-btn" onclick="switchView('blender-renders')">Blender 5.2 Raytraced 3D Wireframes</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid" id="manifold-grid">
+      <!-- 10 Manifolds dynamically rendered -->
+    </div>
+  </main>
+
+  <!-- Interactive 3D Modal -->
+  <div class="modal-overlay" id="modal3d">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="modal-title">Interactive 3D Inspector</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div id="threejs-canvas-container"></div>
+      <div class="modal-footer">
+        <span>Controls: Left Click to Rotate | Right Click to Pan | Scroll to Zoom</span>
+        <div>
+          <button class="switch-btn" onclick="toggleWireframe()">Toggle Wireframe / Solid</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const manifolds = [
+      {
+        id: "01_boys_surface",
+        title: "Boy's Surface",
+        subtitle: "Curve Finance Topological Archetype (Immersion of Real Projective Plane)",
+        eq: "Apery Parametrization: RP² immersion with order-3 cyclic symmetry",
+        scientific: "scientific-plots/01_boys_surface_scientific_plot.png",
+        brand: "brand-lockups/01_boys_surface_curve_brand_lockup.png",
+        blender: "blender-renders/01_boys_surface_blender_render.png"
+      },
+      {
+        id: "02_figure8_klein_bottle",
+        title: "Figure-8 Klein Bottle",
+        subtitle: "Non-Orientable 2-Manifold Immersion (User Reference Matplotlib Model)",
+        eq: "r(u,v) = 2 + cos(u/2)sin(v) - sin(u/2)sin(2v)",
+        scientific: "scientific-plots/02_figure8_klein_bottle_scientific_plot.png",
+        brand: "brand-lockups/02_figure8_klein_bottle_curve_brand_lockup.png",
+        blender: "blender-renders/02_figure8_klein_bottle_blender_render.png"
+      },
+      {
+        id: "03_singularity_funnel",
+        title: "33rd Tree Singularity Funnel",
+        subtitle: "Kerr Metric Ergosphere & Spacetime Curvature Gradient",
+        eq: "z(r,θ) = -1.4·ln(r + 0.15)·(1 + 0.18·cos(3θ)) with frame-dragging twist",
+        scientific: "scientific-plots/03_singularity_funnel_scientific_plot.png",
+        brand: "brand-lockups/03_singularity_funnel_curve_brand_lockup.png",
+        blender: "blender-renders/03_singularity_funnel_blender_render.png"
+      },
+      {
+        id: "04_dupin_cyclide",
+        title: "Dupin Cyclide",
+        subtitle: "Conformal Inversion Manifold of Principal Curvature Lines",
+        eq: "Dupin (1822): Envelope of a family of spheres tangent to three fixed spheres",
+        scientific: "scientific-plots/04_dupin_cyclide_scientific_plot.png",
+        brand: "brand-lockups/04_dupin_cyclide_curve_brand_lockup.png",
+        blender: "blender-renders/04_dupin_cyclide_blender_render.png"
+      },
+      {
+        id: "05_enneper_surface",
+        title: "Enneper Minimal Surface",
+        subtitle: "Classical Zero-Mean Curvature (H=0) Self-Intersecting Sheet",
+        eq: "x = u - u³/3 + uv², y = v - v³/3 + vu², z = u² - v²",
+        scientific: "scientific-plots/05_enneper_surface_scientific_plot.png",
+        brand: "brand-lockups/05_enneper_surface_curve_brand_lockup.png",
+        blender: "blender-renders/05_enneper_surface_blender_render.png"
+      },
+      {
+        id: "06_clifford_torus",
+        title: "Clifford Torus Projection",
+        subtitle: "Flat Torus in 4-Space S³ Stereographically Projected into R³",
+        eq: "S¹ × S¹ ⊂ S³ ⊂ R⁴ stereographic projection onto R³",
+        scientific: "scientific-plots/06_clifford_torus_scientific_plot.png",
+        brand: "brand-lockups/06_clifford_torus_curve_brand_lockup.png",
+        blender: "blender-renders/06_clifford_torus_blender_render.png"
+      },
+      {
+        id: "07_breather_soliton",
+        title: "Breather Soliton Manifold",
+        subtitle: "Exact Analytical Solution to Sine-Gordon Nonlinear Wave Equation",
+        eq: "Breather pseudospherical surface modeling localized topological energy solitons",
+        scientific: "scientific-plots/07_breather_soliton_scientific_plot.png",
+        brand: "brand-lockups/07_breather_soliton_curve_brand_lockup.png",
+        blender: "blender-renders/07_breather_soliton_blender_render.png"
+      },
+      {
+        id: "08_dini_pseudosphere",
+        title: "Dini's Pseudosphere Spiral",
+        subtitle: "Surface of Constant Negative Curvature (K = -1) Twisted into a Helix",
+        eq: "Pseudosphere transformation with helical pitch b=0.22",
+        scientific: "scientific-plots/08_dini_pseudosphere_scientific_plot.png",
+        brand: "brand-lockups/08_dini_pseudosphere_curve_brand_lockup.png",
+        blender: "blender-renders/08_dini_pseudosphere_blender_render.png"
+      },
+      {
+        id: "09_kuen_surface",
+        title: "Kuen Pseudosphere",
+        subtitle: "Constant Negative Curvature Manifold with Dual Horn Singularities",
+        eq: "Alfred Kuen (1884): Pseudospherical surface with asymptotic lines",
+        scientific: "scientific-plots/09_kuen_surface_scientific_plot.png",
+        brand: "brand-lockups/09_kuen_surface_curve_brand_lockup.png",
+        blender: "blender-renders/09_kuen_surface_blender_render.png"
+      },
+      {
+        id: "10_cross_cap",
+        title: "Cross-Cap Projective Plane",
+        subtitle: "Non-Orientable Manifold with Pinch-Point Whitney Singularities",
+        eq: "Classic immersion of the real projective plane with a line of self-intersection",
+        scientific: "scientific-plots/10_cross_cap_scientific_plot.png",
+        brand: "brand-lockups/10_cross_cap_curve_brand_lockup.png",
+        blender: "blender-renders/10_cross_cap_blender_render.png"
+      }
+    ];
+
+    let currentView = 'brand-lockups';
+    let surfaceCatalogue = [];
+
+    // Fetch mesh JSON catalogue for Three.js
+    fetch('scientific-differential-geometry-10/mesh-data/surfaces.json')
+      .then(r => r.json())
+      .then(data => { surfaceCatalogue = data; })
+      .catch(e => console.log("Mesh catalogue local preview:", e));
+
+    function renderCards() {
+      const grid = document.getElementById('manifold-grid');
+      grid.innerHTML = '';
+
+      manifolds.forEach(m => {
+        let imgSrc = '';
+        if (currentView === 'brand-lockups') {
+          imgSrc = 'scientific-differential-geometry-10/' + m.brand;
+        } else if (currentView === 'scientific-plots') {
+          imgSrc = 'scientific-differential-geometry-10/' + m.scientific;
+        } else {
+          imgSrc = 'scientific-differential-geometry-10/' + m.blender;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-media">
+            <img src="${imgSrc}" alt="${m.title}">
+          </div>
+          <div class="card-body">
+            <span class="card-id">#${m.id.split('_')[0]} // DIFFERENTIAL GEOMETRY</span>
+            <h3 class="card-title">${m.title}</h3>
+            <p class="card-sub">${m.subtitle}</p>
+            <div class="card-eq">${m.eq}</div>
+            <div class="card-actions">
+              <a href="${imgSrc}" download class="btn-download">Download 300 DPI</a>
+              <button class="btn-3d" onclick="open3DModal('${m.id}')">Inspect in 3D WebGL</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function switchView(viewName) {
+      currentView = viewName;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if ((viewName === 'brand-lockups' && btn.innerText.includes('Curve')) ||
+            (viewName === 'scientific-plots' && btn.innerText.includes('Scientific')) ||
+            (viewName === 'blender-renders' && btn.innerText.includes('Blender'))) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      renderCards();
+    }
+
+    // Three.js Interactive Inspection Modal
+    let scene, camera, renderer, controls, currentMesh;
+    let isWireframe = true;
+
+    function initThree() {
+      const container = document.getElementById('threejs-canvas-container');
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x090d16);
+
+      camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+      camera.position.set(0, -6, 4);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      container.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+
+      const amb = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(amb);
+
+      const dirLight = new THREE.DirectionalLight(0x00f5d4, 1.2);
+      dirLight.position.set(5, -5, 10);
+      scene.add(dirLight);
+
+      const dirLight2 = new THREE.DirectionalLight(0x00bbf9, 0.8);
+      dirLight2.position.set(-5, 5, -5);
+      scene.add(dirLight2);
+
+      // Grid helper
+      const gridHelper = new THREE.GridHelper(10, 20, 0x00f5d4, 0x1f2937);
+      gridHelper.rotation.x = Math.PI / 2;
+      scene.add(gridHelper);
+
+      window.addEventListener('resize', () => {
+        if (!container.clientWidth) return;
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        if (currentMesh) {
+          currentMesh.rotation.z += 0.003;
+        }
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+
+    function open3DModal(id) {
+      const modal = document.getElementById('modal3d');
+      modal.classList.add('open');
+
+      const s = surfaceCatalogue.find(item => item.id === id);
+      if (s) {
+        document.getElementById('modal-title').innerText = `${s.title} — Real-Time 3D Parametric Surface`;
+        loadSurfaceGeometry(s);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('modal3d').classList.remove('open');
+    }
+
+    function loadSurfaceGeometry(s) {
+      if (!scene) initThree();
+      if (currentMesh) scene.remove(currentMesh);
+
+      const geom = new THREE.BufferGeometry();
+      const vertices = [];
+      const colors = [];
+      const indices = [];
+
+      const rows = s.rows;
+      const cols = s.cols;
+
+      let minZ = Infinity, maxZ = -Infinity;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const z = s.z[r][c];
+          if (z < minZ) minZ = z;
+          if (z > maxZ) maxZ = z;
+        }
+      }
+      const spanZ = Math.max(maxZ - minZ, 0.01);
+
+      // Jet colormap function
+      function jetColor(val) {
+        const c = new THREE.Color();
+        const v = Math.min(Math.max((val - minZ) / spanZ, 0), 1);
+        if (v < 0.25) c.setRGB(0, 4*v, 1);
+        else if (v < 0.5) c.setRGB(0, 1, 1 - 4*(v - 0.25));
+        else if (v < 0.75) c.setRGB(4*(v - 0.5), 1, 0);
+        else c.setRGB(1, 1 - 4*(v - 0.75), 0);
+        return c;
+      }
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = s.x[r][c];
+          const y = s.y[r][c];
+          const z = s.z[r][c];
+          vertices.push(x, y, z);
+          const col = jetColor(z);
+          colors.push(col.r, col.g, col.b);
+        }
+      }
+
+      for (let r = 0; r < rows - 1; r++) {
+        for (let c = 0; c < cols - 1; c++) {
+          const i0 = r * cols + c;
+          const i1 = (r + 1) * cols + c;
+          const i2 = (r + 1) * cols + (c + 1);
+          const i3 = r * cols + (c + 1);
+          indices.push(i0, i1, i2);
+          indices.push(i0, i2, i3);
+        }
+      }
+
+      geom.setIndex(indices);
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      geom.computeVertexNormals();
+      geom.center();
+
+      const mat = new THREE.MeshStandardMaterial({
+        vertexColors: true,
+        wireframe: isWireframe,
+        roughness: 0.2,
+        metalness: 0.8,
+        side: THREE.DoubleSide
+      });
+
+      currentMesh = new THREE.Mesh(geom, mat);
+      scene.add(currentMesh);
+    }
+
+    function toggleWireframe() {
+      isWireframe = !isWireframe;
+      if (currentMesh && currentMesh.material) {
+        currentMesh.material.wireframe = isWireframe;
+      }
+    }
+
+    // Initial render
+    renderCards();
+    window.onload = initThree;
+  </script>
+</body>
+</html>
