@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root {
+  --bg-obsidian: #030706;
+  --surface-panel: #0a1412;
+  --surface-border: #17302a;
+  --accent-mint: #00f5d4;
+  --accent-emerald: #10b981;
+  --text-primary: #eef6f4;
+  --text-muted: #8ea9a2;
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  color: var(--text-primary);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

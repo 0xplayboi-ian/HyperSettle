@@ -7,17 +7,17 @@
  * and deterministic split rules for the Colosseum Eternal hackathon.
  */
 
-import { getDb, closeDb } from './index.js';
-import { runMigrations } from './migrate.js';
-import { parseHyperCoreFill, ingestFeeEvent, RawHyperCoreFill } from '../ingestion/hypercore.js';
-import { calculateSplit, SplitConfig } from '../core/splits.js';
+import { getDb, closeDb } from './index';
+import { runMigrations } from './migrate';
+import { calculateSplit, serializeSplitConfig, type SplitConfig } from '../core/splits';
 
 export function seedDatabase(db = getDb()) {
   console.log('⚡ Seeding HyperSettle with production-grade demo data...');
   runMigrations(db);
 
-  // Clear existing records cleanly
+  // Clear existing records cleanly and reset AUTOINCREMENT sequences
   db.exec(`
+    DELETE FROM reconciliation_snapshots;
     DELETE FROM settlement_lines;
     DELETE FROM settlements;
     DELETE FROM fee_events;
@@ -26,6 +26,11 @@ export function seedDatabase(db = getDb()) {
     DELETE FROM contributors;
     DELETE FROM builder_codes;
   `);
+  try {
+    db.exec(`DELETE FROM sqlite_sequence;`);
+  } catch {
+    // sqlite_sequence does not exist on fresh DB prior to first AUTOINCREMENT insert
+  }
 
   // 1. Insert Builder Codes
   const insertBuilder = db.prepare(`
@@ -53,7 +58,7 @@ export function seedDatabase(db = getDb()) {
     'contributor_elena',
     'Elena Vance (Protocol Architect)',
     '0x71C8416760895fDA3073CaA8B9f041B72F30571C',
-    'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+    '9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM'
   );
   insertContributor.run(
     'contributor_marcus',
@@ -109,13 +114,7 @@ export function seedDatabase(db = getDb()) {
     ],
     spilloverRecipientId: 'contributor_treasury'
   };
-  // Store BigInt config as serializable string
-  const ruleB3Json = JSON.stringify({
-    type: 'fixed_per_period',
-    fixedRecipients: [{ contributorId: 'contributor_jayden', amountMicroUsd: '5000000000' }],
-    spilloverRecipientId: 'contributor_treasury'
-  });
-  insertRule.run(b3Id, 'QuantumArb Fixed Quota ($5K Quota + Spillover)', '2026-10-01T00:00:00Z', 'fixed_per_period', ruleB3Json);
+  insertRule.run(b3Id, 'QuantumArb Fixed Quota ($5K Quota + Spillover)', '2026-10-01T00:00:00Z', 'fixed_per_period', serializeSplitConfig(ruleB3Config));
 
   console.log('  ✓ Seeded 3 Active Revenue Split Rules');
 
@@ -228,7 +227,7 @@ export function seedDatabase(db = getDb()) {
   `);
 
   const contributorWallets: Record<string, string> = {
-    contributor_elena: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+    contributor_elena: '9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM',
     contributor_marcus: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
     contributor_treasury: 'Squads1111111111111111111111111111111111111'
   };
@@ -239,6 +238,31 @@ export function seedDatabase(db = getDb()) {
   }
 
   console.log(`  ✓ Created finalized baseline settlement #${settId} for HyperTerminal ($${(Number(octTotalMicro)/1e6).toFixed(2)})`);
+
+  // 6. Seed Onchain Reconciliation Snapshots for all 3 Builder Codes
+  const start30d = new Date(now.getTime() - 31 * 24 * 3600 * 1000).toISOString();
+  const endNow = now.toISOString();
+  const insertRecon = db.prepare(`
+    INSERT INTO reconciliation_snapshots (
+      builder_code_id, period_start, period_end,
+      local_total_micro_usd, onchain_total_micro_usd, drift_micro_usd, status, source, notes
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, 'hypercore_referral_api', ?)
+  `);
+
+  for (const bid of [b1Id, b2Id, b3Id]) {
+    const sumRow = db.prepare(`SELECT COALESCE(SUM(fee_micro_usd), 0) as total FROM fee_events WHERE builder_code_id = ?`).get(bid) as { total: number };
+    const localSum = BigInt(sumRow.total);
+    // Simulate exact match on #1 and #2, tiny 2 micro-USD HyperBFT tail lag on #3
+    const drift = bid === b3Id ? 2n : 0n;
+    const onchainSum = localSum + drift;
+    const status = drift === 0n ? 'matched' : 'minor_drift';
+    const note = drift === 0n
+      ? 'Exact match against HyperCore /info referral builderRewards state.'
+      : '2 micro-USD delta (< 0.01% threshold): 1 pending finality fill within 2s HyperBFT window.';
+    insertRecon.run(bid, start30d, endNow, localSum.toString(), onchainSum.toString(), drift.toString(), status, note);
+  }
+
+  console.log('  ✓ Seeded 3 HyperCore reconciliation snapshots');
   console.log('✅ HyperSettle seed completed with 100% database integrity.');
 }
 

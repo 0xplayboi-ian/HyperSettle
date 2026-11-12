@@ -72,6 +72,68 @@ export function formatMicroUsd(amount: bigint, decimals: number = 6): string {
 }
 
 /**
+ * Convert integer micro-USD to plain decimal USDC string (no commas or $ sign)
+ * Suitable for Squads V4 batch CSV and automated SPL payouts.
+ * e.g. 1500000n -> "1.5", 1000000n -> "1", 65854339n -> "65.854339"
+ */
+export function microUsdToDecimal(amount: bigint): string {
+  const isNegative = amount < 0n;
+  const absAmount = isNegative ? -amount : amount;
+  const divisor = 1_000_000n;
+  const whole = absAmount / divisor;
+  const fraction = absAmount % divisor;
+  const sign = isNegative ? '-' : '';
+
+  if (fraction === 0n) {
+    return `${sign}${whole.toString()}`;
+  }
+
+  const trimmedFraction = fraction.toString().padStart(6, '0').replace(/0+$/, '');
+  return `${sign}${whole.toString()}.${trimmedFraction}`;
+}
+
+/**
+ * Safely serialize SplitConfig (handles bigint amounts in fixed_per_period rules)
+ */
+export function serializeSplitConfig(config: SplitConfig): string {
+  if (config.type === 'fixed_per_period') {
+    return JSON.stringify({
+      type: 'fixed_per_period',
+      fixedRecipients: config.fixedRecipients.map(r => ({
+        contributorId: r.contributorId,
+        amountMicroUsd: r.amountMicroUsd.toString()
+      })),
+      spilloverRecipientId: config.spilloverRecipientId
+    });
+  }
+  return JSON.stringify(config);
+}
+
+/**
+ * Safely deserialize SplitConfig from JSON stored in SQLite
+ */
+export function deserializeSplitConfig(jsonStr: string): SplitConfig {
+  const parsed = JSON.parse(jsonStr);
+  if (parsed?.type === 'fixed_per_period') {
+    return {
+      type: 'fixed_per_period',
+      fixedRecipients: (parsed.fixedRecipients || []).map((r: { contributorId: string; amountMicroUsd: string | number }) => ({
+        contributorId: String(r.contributorId),
+        amountMicroUsd: BigInt(String(r.amountMicroUsd))
+      })),
+      spilloverRecipientId: String(parsed.spilloverRecipientId || '')
+    };
+  }
+  return {
+    type: 'percent',
+    recipients: (parsed?.recipients || []).map((r: { contributorId: string; bps: number }) => ({
+      contributorId: String(r.contributorId),
+      bps: Number(r.bps)
+    }))
+  };
+}
+
+/**
  * Parse USD decimal string to integer micro-USD
  * e.g. "1.50" -> 1500000n, "0.000001" -> 1n
  */
@@ -92,6 +154,16 @@ export function validateSplitConfig(config: SplitConfig): { valid: boolean; erro
     if (!config.recipients || config.recipients.length === 0) {
       return { valid: false, error: 'Percent rule must have at least one recipient' };
     }
+    const seen = new Set<string>();
+    for (const r of config.recipients) {
+      if (!Number.isInteger(r.bps) || r.bps < 0) {
+        return { valid: false, error: `Invalid basis points for contributor ${r.contributorId}: ${r.bps}` };
+      }
+      if (seen.has(r.contributorId)) {
+        return { valid: false, error: `Duplicate contributorId in split config: ${r.contributorId}` };
+      }
+      seen.add(r.contributorId);
+    }
     const totalBps = config.recipients.reduce((sum, r) => sum + r.bps, 0);
     if (totalBps !== 10_000) {
       return { valid: false, error: `Percent split basis points must total exactly 10,000 bps (got ${totalBps})` };
@@ -100,6 +172,11 @@ export function validateSplitConfig(config: SplitConfig): { valid: boolean; erro
   } else if (config.type === 'fixed_per_period') {
     if (!config.fixedRecipients || config.fixedRecipients.length === 0) {
       return { valid: false, error: 'Fixed rule must have at least one recipient' };
+    }
+    for (const r of config.fixedRecipients) {
+      if (r.amountMicroUsd < 0n) {
+        return { valid: false, error: `Fixed quota cannot be negative for ${r.contributorId}` };
+      }
     }
     if (!config.spilloverRecipientId) {
       return { valid: false, error: 'Fixed rule requires a spillover/treasury recipient ID' };

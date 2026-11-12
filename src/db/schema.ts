@@ -94,4 +94,21 @@ CREATE TABLE IF NOT EXISTS settlement_lines (
 );
 
 CREATE INDEX IF NOT EXISTS idx_settlement_lines_parent ON settlement_lines(settlement_id);
+
+-- 8. Onchain HyperCore Reconciliation Snapshots
+CREATE TABLE IF NOT EXISTS reconciliation_snapshots (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  builder_code_id INTEGER NOT NULL REFERENCES builder_codes(id) ON DELETE CASCADE,
+  period_start TEXT NOT NULL,
+  period_end TEXT NOT NULL,
+  local_total_micro_usd INTEGER NOT NULL,
+  onchain_total_micro_usd INTEGER NOT NULL,
+  drift_micro_usd INTEGER NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('matched', 'minor_drift', 'discrepancy')),
+  source TEXT NOT NULL DEFAULT 'hypercore_referral_api',
+  notes TEXT,
+  checked_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_reconciliation_builder ON reconciliation_snapshots(builder_code_id, checked_at);
 `;

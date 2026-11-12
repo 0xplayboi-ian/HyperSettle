@@ -8,8 +8,8 @@
  * 4. Solana Squads V4 multisig payout verification
  */
 
-import { getDb } from '../db/index.js';
-import { calculateSplit, formatMicroUsd, type SplitConfig } from '../core/splits.js';
+import { getDb } from '../db/index';
+import { calculateSplit, deserializeSplitConfig, formatMicroUsd } from '../core/splits';
 
 async function main() {
   const db = getDb();
@@ -70,18 +70,21 @@ async function main() {
   }
   console.log('');
 
-  // 4. Live Settlement Simulation (HyperTerminal Builder #1)
-  console.log('⚖️  LIVE SETTLEMENT ENGINE PREVIEW (Builder #1 • HyperTerminal):');
-  const b1RuleRow = db.prepare(`
-    SELECT name, type, config 
-    FROM split_rules 
-    WHERE builder_code_id = 1 
-    ORDER BY id DESC LIMIT 1
-  `).get() as any;
+  // 4. Live Settlement Simulation (First Active Builder)
+  const targetBuilder = builders[0];
+  console.log(`⚖️  LIVE SETTLEMENT ENGINE PREVIEW (Builder #${targetBuilder?.id ?? 1} • ${targetBuilder?.label ?? 'HyperTerminal'}):`);
+  const b1RuleRow = targetBuilder
+    ? (db.prepare(`
+        SELECT name, type, config 
+        FROM split_rules 
+        WHERE builder_code_id = ? 
+        ORDER BY id DESC LIMIT 1
+      `).get(targetBuilder.id) as any)
+    : null;
 
-  if (b1RuleRow) {
-    const config: SplitConfig = JSON.parse(b1RuleRow.config);
-    const b1Fees = BigInt(builders.find(b => b.id === 1)?.total_fee || 0);
+  if (b1RuleRow && targetBuilder) {
+    const config = deserializeSplitConfig(b1RuleRow.config);
+    const b1Fees = BigInt(targetBuilder.total_fee || 0);
 
     const split = calculateSplit(b1Fees, config);
 
